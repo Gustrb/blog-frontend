@@ -1,0 +1,46 @@
+<div ng-controller='UsersController'>
+    <div ng-if="!isAnyLoggedUser()">
+        <h1>Preencha os campos para fazer login!</h1>
+
+        <div class="user-card-form">
+            <form ng-submit="login()">
+                <div class="form-group">
+                    <input type="email" ng-model="userLogin.email" class="form-control"
+                        placeholder="Digite o email do seu usuário" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" ng-model="userLogin.password" class="form-control"
+                        placeholder="Digite a sua senha" required>
+                </div>
+                <div class="form-group w-100">
+                    <button type="submit" class="btn btn-primary w-100 mt-4">Logar</button>
+                </div>
+            </form>
+        </div>
+
+        <small><a href="#/register">Se você ainda não possui uma conta, registre-se</a></small>
+
+        <div ng-if="errorMessages.length > 0">
+            <div ng-repeat="errorMessage in errorMessages" class="alert-danger">
+                {{ errorMessage }}
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="isAnyLoggedUser()">
+        <div class="card mt-4">
+            <h1 class="ml-2">
+                Você está logado! <p>Seja bem vindo</p>
+            </h1>
+
+            <p class="ml-2">Username: {{ getLoggedUser().name }}</p>
+            <p class="ml-2">E-mail: {{ getLoggedUser().email }}</p>
+
+            <div class="d-flex justify-content-center mb-2">
+                <button class="btn btn-danger w-25" ng-click="logoff()">Deslogar</button>
+                <a class="btn btn-primary w-25 ml-2" href="#/users/{{ getLoggedUser().id }}/update">Editar</a>
+                <button class="btn btn-danger w-25 ml-2" ng-click="deleteUser()">Excluir conta</button>
+            </div>
+        </div>
+    </div>
+</div>

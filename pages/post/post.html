@@ -1,0 +1,27 @@
+<div ng-controller='PostsController'>
+    <div class="post-card card mt-4">
+        <a href="#/posts/{{ singlePost.id }}"><small class="post-title ml-1">{{ singlePost.title }}</small></a>
+
+        <p class="post-description text-center">{{ singlePost.description }}</p>
+
+        <div class="ml-2">
+            <small class="post-author">Autor: {{ singlePost.author }}</small>
+            <small class="post-created-at ml-1">Publicado em: {{ singlePost.created_at | date:"dd/MM/yyyy" }}</small>
+        </div>
+        <div ng-if="singlePost.tags.length > 0" class="d-flex">
+            <p class="ml-2">Tags:
+                <div ng-repeat='tag in singlePost.tags' class="flex-sm-row ml-2">
+                    <h6 class='badge badge-secondary'>{{ tag.name }}</h6>
+
+                    <span ng-if="getLoggedUser().name === singlePost.author">
+                        <button ng-click="unlinkTag(tag.id, singlePost.id)">X</button>
+                    </span>
+                </div>
+            </p>
+        </div>
+    </div>
+    <div ng-if="getLoggedUser().name === singlePost.author">
+        <small><button class="btn btn-danger" ng-click="deletePost()">Excluir</button></small>
+        <small><a href="#/posts/{{ singlePost.id }}/update" class="btn btn-primary">Editar</a></small>
+    </div>
+</div>

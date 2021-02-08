@@ -1,0 +1,16 @@
+<div ng-controller='TagsController'>
+    <div class="container card mt-4">
+        <h1>Crie uma nova tag!</h1>
+        <form ng-submit="createTag()">
+            <div class="form-group">
+                <input type="text" ng-model='newTag.name' class="form-control" placeholder="Nome da nova tag">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-4">Adicionar</button>
+        </form>
+    </div>
+
+    <h1>Tags disponíveis:</h1>
+    <div ng-repeat='tag in tags' class="badge badge-secondary ml-2">
+        <h3>{{ tag.name }}</h3>
+    </div>
+</div>

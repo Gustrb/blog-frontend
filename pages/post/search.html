@@ -1,0 +1,71 @@
+<style>
+    .tag {
+        cursor: pointer;
+    }
+
+    .delete-tag {
+        padding: 0px;
+        font-size: 12px;
+
+    }
+
+    .btn-transparent {
+        padding: 0;
+        border: none;
+        background: none;
+        margin-left: 4px;
+    }
+
+    .btn-transparent:after {
+        display: inline-block;
+        content: "\00d7";
+    }
+</style>
+
+Posts encontrados
+<div ng-controller='PostsController'>
+    <div ng-repeat="post in posts">
+        <div class="post-card card mt-4">
+            <a href="#/posts/{{ post.id }}"><small class="post-title ml-1">{{ post.title }}</small></a>
+
+            <p class="post-description text-center">{{ post.description }}</p>
+
+            <div class="ml-2">
+                <small class="post-author">Autor: {{ post.author }}</small>
+                <small class="post-created-at ml-1">Publicado em: {{ post.created_at | date:"dd/MM/yyyy" }}</small>
+            </div>
+            <div ng-if="post.tags.length > 0" class="d-flex">
+                <p class="ml-2">Tags:
+                    <div ng-repeat='tag in post.tags' class="flex-sm-row ml-2">
+                        <h6 class='badge badge-secondary'>{{ tag.name }}
+                            <span ng-if="getLoggedUser().name === post.author">
+                                <button ng-click="unlinkTag(tag.id, post.id)" class="btn-transparent"></button>
+                            </span>
+                        </h6>
+                    </div>
+                </p>
+            </div>
+            <div ng-if="isAnyLoggedUser()">
+                <form ng-submit="createComment(post.id)">
+                    <div class="form-group d-flex">
+                        <input type="text" ng-model="post.newComment.text" class="form-control ml-2 w-88"
+                            placeholder="Adicione um comentário">
+                        <button type="submit" class="btn btn-primary ml-1">Comentar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="comments ml-2">
+                <p>Comentários:</p>
+                <div ng-repeat="addedComment in post.comments">
+                    <small>{{ addedComment.author }} diz:</small>
+                    <small>{{ addedComment.text }}</small>
+
+                    <button ng-if="addedComment.author === getLoggedUser().name || getLoggedUser().name === post.author"
+                        ng-click="deleteComment(post.id, addedComment.id)"
+                        class="btn btn-outline-danger delete btn-sm">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
